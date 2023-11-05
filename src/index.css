@@ -84,3 +84,9 @@ textarea, select {
 .radix-themes .light {
   padding: 1rem;
 }
+
+.todoActions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

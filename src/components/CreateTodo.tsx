@@ -5,7 +5,7 @@ const CreateTodo = () => {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger>
+      <Dialog.Trigger style={{ display:"block", margin: "0 auto", width: "100%", maxWidth: "21rem", textAlign: "center" }}>
         <Button>
           <PlusIcon />
         </Button>

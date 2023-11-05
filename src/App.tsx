@@ -25,7 +25,7 @@ const App = () => {
         <Text as="label" size="2">
           <Flex gap="2">
             <Heading as='h1'>NDE todos</Heading>
-            <Box style={{float: "right"}}>
+            <Box style={{position: "absolute", top: "1rem", right: "1rem"}}>
               <SunIcon />
               <Switch defaultChecked onCheckedChange={() => {setIsDarkTheme(!isDarkTheme)}}/>
               <MoonIcon />
@@ -36,7 +36,7 @@ const App = () => {
         <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
           <Separator orientation="horizontal" size="4" />
         </Flex>
-        <Flex direction="column">
+        <Flex direction="column" style={{ width: "100%" }}>
           <CreateTodo />
         </Flex>
 

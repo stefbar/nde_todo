@@ -7,7 +7,7 @@ const Todo = () => {
 
   return (
     <Flex direction="row" gap="3" style={{ maxWidth: 350 }}>
-      <Card variant="classic">
+      <Card variant="classic" style={{ minWidth: "70%", flexWrap: "wrap", overflow: "scroll" }}>
         <Text as="div" size="2" weight="bold">
           Todo title
         </Text>
@@ -15,10 +15,12 @@ const Todo = () => {
           Todo content
         </Text>
       </Card>
-      <EditTodo />
-      <Button>
-        <TrashIcon />
-      </Button>
+      <div className='todoActions'>
+        <EditTodo />
+        <Button>
+          <TrashIcon />
+        </Button>
+      </div>
     </Flex>
   )
   
