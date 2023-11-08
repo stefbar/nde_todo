@@ -6,8 +6,8 @@ import { TrashIcon } from '@radix-ui/react-icons'
 const Todo = () => {
 
   return (
-    <Flex direction="row" gap="3" style={{ maxWidth: 350 }}>
-      <Card variant="classic" style={{ minWidth: "70%", flexWrap: "wrap", overflow: "scroll" }}>
+    <Flex className='todoContainer' direction="row" gap="3">
+      <Card className='todoCard' variant="classic">
         <Text as="div" size="2" weight="bold">
           Todo title
         </Text>
@@ -17,8 +17,8 @@ const Todo = () => {
       </Card>
       <div className='todoActions'>
         <EditTodo />
-        <Button>
-          <TrashIcon />
+        <Button className='todoActionBtn'>
+          <TrashIcon/>
         </Button>
       </div>
     </Flex>

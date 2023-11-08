@@ -6,8 +6,8 @@ const EditTodo = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button>
-          <Pencil1Icon />
+        <Button className='todoActionBtn'>
+          <Pencil1Icon/>
         </Button>
       </Dialog.Trigger>
 

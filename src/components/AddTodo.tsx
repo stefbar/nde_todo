@@ -1,20 +1,20 @@
 import { Dialog, Flex, Text, TextField, TextArea, Button } from '@radix-ui/themes'
 import { PlusIcon } from '@radix-ui/react-icons'
 
-const CreateTodo = () => {
+const AddTodo = () => {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger style={{ display:"block", margin: "0 auto", width: "100%", maxWidth: "21rem", textAlign: "center" }}>
-        <Button>
+      <Dialog.Trigger>
+        <Button id='addTodoBtn'  className='todoActionBtn'>
           <PlusIcon />
         </Button>
       </Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>
-        <Dialog.Title>Create todo</Dialog.Title>
+        <Dialog.Title>Add todo</Dialog.Title>
         <Dialog.Description size="2" mb="4">
-          Create a new todo.
+          Add a new todo.
         </Dialog.Description>
 
         <Flex direction="column" gap="3">
@@ -53,4 +53,4 @@ const CreateTodo = () => {
 
 }
 
-export default CreateTodo
+export default AddTodo
