@@ -1,75 +1,89 @@
-import { useRef, useState } from 'react'
-import { supabase } from '../supabaseClient'
+import { useEffect, useState } from 'react'
+
+import type { User, Session } from '@supabase/supabase-js'
+import { supabase } from '../db/supabaseClient'
+// import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Database } from '../db/schema'
 
 import Todo from './Todo'
 import AddTodo from './AddTodo'
+import Footer from './Footer'
 
 import { Flex, Separator } from '@radix-ui/themes'
-import RecoverPassword from './RecoverPwd'
 
-const Home = ({ user }) => {
+type Todos = Database['public']['Tables']['todos']['Row']
 
-  const [recoveryToken, setRecoveryToken] = useState(null)
-  const [todos, setTodos] = useState([])
-  const [errorText, setErrorText] = useState('')
-
-  const newTaskTextRef = useRef()
+const Home = ({ session }: { session: Session }) => {
+  // const Home = ({ user }: { user: User }) => {
+  // const supabase = useSupabaseClient<Database>()
+  const [user, setUser] = useState<User | null>(null)
+  const [todos, setTodos] = useState<Todos[]>([])
+  const [newTaskText, setNewTaskText] = useState<string>('')
+  const [errorText, setErrorText] = useState<string | null>('')
 
   useEffect(() => {
-    let url = window.location.hash
-    let query = url.slice(1)
-    let result = {}
+    // const user = supabase.auth.getUser()
+    // user.then(({ data: { user }}) => {
+    //   setUser(session?.user ?? null)
+    // })
+    setUser(session.user ?? null)
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        const currentUser = session?.user
+        setUser(currentUser ?? null)
+      }
+    )
 
-    query.split('&').forEach((part) => {
-      const item = part.split('=')
-      result[item[0]] = decodeURIComponent(item[1])
-    })
-
-    if(result.type === 'recovery') {
-      setRecoveryToken(result.access_token)
+    return () => {
+      authListener?.subscription.unsubscribe()
     }
-  
-    fetchTodos().catch(console.error)
-  }, [])
+  }, [session.user])
 
-  const fetchTodos = async () => {
-    let {data: todos, error} = await supabase
-    .from('todos')
-    .select('*')
-    .order('id', { ascending: false })
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const { data: todos, error } = await supabase
+        .from('todos')
+        .select('*')
+        .order('id', { ascending: true })
 
-    if(error) console.log('error : ', error)
-    else setTodos(todos)
-  }
+      if(error) console.log('error : ', error)
+      else setTodos(todos)      
+    }
 
-  const deleteTodo = async (id) => {
+    fetchTodos()
+  }, [supabase])
+
+// setTodos(todos as Todos[])
+
+  const deleteTodo = async (id: number) => {
     try {
-      await supabase.from('todos').delete().eq('id', id)
+      await supabase
+      .from('todos')
+      .delete()
+      .eq('id', id)
+      .throwOnError()
+
       setTodos(todos.filter((x) => x.id !== id))
     } catch (error) {
-      console.log('error : ', error)
-      
+      console.log('error : ', error)     
     }
   }
 
-  const addTodo = async () => {
-    let taskText = newTaskTextRef.current.value
-    let task = taskText.trim()
+  const addTodo = async (taskText: string) => {
+    const task = taskText?.trim()
 
-    if(task.length <= 3) {
-      setErrorText('Task length should be more than 3 !')
-    } else {
-      let { data: todo, error } = await supabase
+    if(task?.length) {
+      const { data: todo, error } = await supabase
       .from('todos')
-      .insert({ task, user_id: user.id })
+      .insert({ task, user_id: session.user.id })
+      .select()
       .single()
 
       if(error) setErrorText(error.message)
       else {
-    setTodos([ todo, ...todos])}
-    setErrorText(null)
-    newTaskTextRef.current.value = ''
-    }
+      setTodos([ ...todos, todo])}
+      setNewTaskText('')
+      }
   }
 
   const handleLogout = async () => {
@@ -77,17 +91,13 @@ const Home = ({ user }) => {
   }
   
 
-  return recoveryToken ? (
-    <RecoverPassword
-      token={recoveryToken}
-      setRecoveryToken={setRecoveryToken}
-    /> ) : (
+  return(
     <>
       <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
         <Separator orientation="horizontal" size="4" />
       </Flex>
       <Flex direction="column" style={{ width: "100%" }}>
-        <AddTodo />
+        <AddTodo taskText={newTaskText} setNewTaskText={setNewTaskText} addTodo={addTodo} />
       </Flex>
 
       <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
@@ -95,8 +105,28 @@ const Home = ({ user }) => {
       </Flex>
 
       <Flex direction="column" gap="3">
-        <Todo />
+        {
+          todos.length ?
+            <ul role='list'>
+              { todos.map((todo) => {
+                return(
+                  <Todo  
+                    key={todo.id}
+                    todo={todo}
+                    deleteTodo={() => deleteTodo(todo.id)}
+                  />
+                )
+              })}
+            </ul> :
+          <p>No todo yet.</p>
+        }
       </Flex>
+      
+      <Flex direction="column" gap="3">
+        { !!errorText && <p>{errorText}</p> }
+      </Flex>
+
+      <Footer handleLogout={handleLogout}/>
     </>
   )
 }

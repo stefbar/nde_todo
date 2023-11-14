@@ -1,20 +1,24 @@
+import type { AuthError, Provider, User } from '@supabase/supabase-js'
 import { useRef, useState } from 'react'
-import { supabase } from '../supabaseClient'
+
+import { supabase } from '../db/supabaseClient'
 
 import { Flex, Card, Text, TextField, Button } from '@radix-ui/themes'
 // import { TrashIcon } from '@radix-ui/react-icons'
 
 const Login = () => {
+  const supabaseUrl = import.meta.env.VITE_NDETODO_SUPABASE_URL
+  const supabaseKey = import.meta.env.VITE_NDETODO_SUPABASE_KEY
 
-  const [helperTxt, setHelperTxt] = useState({ error: null, text: null })
-  const emailRef = useRef()
-  const pwdRef = useRef()
+  const [helperTxt, setHelperTxt] = useState<{ error: boolean, text: string | null }>({ error: true, text: null })
+  const emailRef = useRef<HTMLInputElement>(null)
+  const pwdRef = useRef<HTMLInputElement>(null)
 
-  const handleLogin = async (type) => {
-    const email = emailRef?.current.value
-    const pwd = pwdRef?.current.value
+  const handleLogin = async (type: string) => {
+    const email = emailRef.current?.value
+    const password = pwdRef.current?.value
 
-    const{user, error} = type === 'LOGIN' ? await supabase.auth.signIn({email, pwd}) : await supabase.auth.signUp({email, pwd})
+    const {data: {user}, error}: {data: {user: User | null}, error: AuthError | null } = type === 'LOGIN' ? await supabase.auth.signInWithPassword({email, password}) : await supabase.auth.signUp({email, password})
 
     if(error) {
       setHelperTxt({error: true, text: error.message})
@@ -26,21 +30,23 @@ const Login = () => {
     }
   }
 
-  const handleAuth = async (provider) => {
-    let {error} = await supabase.auth.signIn({provider})
+  const handleAuth = async (provider: Provider) => {
+    // You need to enable the third party auth you want in Authentication > Settings
+    // Read more on: https://supabase.com/docs/guides/auth#third-party-logins
+    const {error} = await supabase.auth.signInWithOAuth({provider})
     if(error) {
       console.log('Error : ', error.message)
     }
   }
 
-  const forgotPwd = async (e) => {
+  const forgotPwd = async (e: React.MouseEvent<Element, MouseEvent>) => {
     e.preventDefault()
     const email = prompt('Please enter your email')
 
     if(email === null || email === '') {
       setHelperTxt({error: true, text: 'You must enter your email'})
     } else {
-      let {error} = await supabase.auth.api.resetPasswordForEmail(email)
+      const {error} = await supabase.auth.resetPasswordForEmail(email)
       if(error) {
         console.log('Error : ', error.message)
       } else {
@@ -50,57 +56,62 @@ const Login = () => {
   }
 
   return (
-    <Flex className='todoContainer' direction="row" gap="3">
-      <Card className='todoCard' variant="classic">
-        <Text as="div" size="2" weight="bold">
-          Login
-        </Text>
-        <label htmlFor='userEmail'>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Email
-            </Text>
-            <TextField.Input
-              ref={emailRef}
-              type='email'
-              name='userEmail'
-              defaultValue="Email"
-              placeholder="Type your email"
-              required
-            />
-          </label>
-          <label htmlFor='userPwd'>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Password
-            </Text>
-            <TextField.Input
-              ref={pwdRef}
-              type='password'
-              name='userPwd'
-              defaultValue="Password"
-              placeholder="Type your password"
-              required
-            />
-          </label>
-          <span onClick={forgotPwd} >
-            { !!helperTxt.text && (<div className={ helperTxt.error ? 'errorTxt' : 'successTxt' } >{helperTxt.text}</div>) }
-          </span>
-      </Card>
-      <div className='todoActions'>
-        <Button
-          type='submit'
-          className='todoActionBtn'
-          onClick={() => handleLogin('REGISTER').catch(console.error)}
-        >
-          Sign up
-        </Button>
-        <Button
-          type='button'
-          className='todoActionBtn'
-          onClick={() => handleLogin('LOGIN')}
-        >
-          Sign in
-        </Button>
-      </div>
+    supabaseUrl && supabaseKey ? (
+      <p>There is no api key and url</p>
+    ) : (
+    <>
+      <Flex className='todoContainer' direction="row" gap="3">
+        <Card className='todoCard' variant="classic">
+          <Text as="div" size="2" weight="bold">
+            Login
+          </Text>
+          <label htmlFor='userEmail'>
+              <Text as="div" size="2" mb="1" weight="bold">
+                Email
+              </Text>
+              <TextField.Input
+                ref={emailRef}
+                type='email'
+                name='userEmail'
+                // defaultValue="Email"
+                placeholder="Type your email"
+                required
+              />
+            </label>
+            <label htmlFor='userPwd'>
+              <Text as="div" size="2" mb="1" weight="bold">
+                Password
+              </Text>
+              <TextField.Input
+                ref={pwdRef}
+                type='password'
+                name='userPwd'
+                // defaultValue="Password"
+                placeholder="Type your password"
+                required
+              />
+            </label>
+            <span onClick={forgotPwd} >
+              { !!helperTxt.text && (<div className={ helperTxt.error ? 'errorTxt' : 'successTxt' } >{helperTxt.text}</div>) }
+            </span>
+          <div className='todoActions'>
+            <Button
+              type='submit'
+              className='todoActionBtn'
+              onClick={() => handleLogin('REGISTER').catch(console.error)}
+            >
+              Sign up
+            </Button>
+            <Button
+              type='button'
+              className='todoActionBtn'
+              onClick={() => handleLogin('LOGIN')}
+            >
+              Sign in
+            </Button>
+          </div>
+        </Card>
+      </Flex>
       <div>
         <span>
           Or continue with :
@@ -110,6 +121,7 @@ const Login = () => {
             <Button
               type='button'
               onClick={() => handleAuth('github')}
+              disabled
             >
               GitHub
             </Button>
@@ -126,9 +138,9 @@ const Login = () => {
           </span>
         </div>
       </div>
-    </Flex>
+    </>
   )
-
+  )
 }
 
 export default Login

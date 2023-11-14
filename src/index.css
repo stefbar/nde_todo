@@ -85,28 +85,9 @@ textarea, select {
   padding: 1rem;
 }
 
-.toggleThemeContainer {
-  min-width: 80px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.themeIcon {
-  align-self: center;
-}
-
 .todoContainer {
-  max-width: 350;
-  justify-content: space-between;
-}
-
-.todoCard {
-  min-width: 70%;
-  flex-wrap: wrap;
-  flex-basis: auto;
-  flex-grow: 1;
-  flex-shrink: 0;
+  direction: row;
+  gap: 3;
 }
 
 .todoActions {
