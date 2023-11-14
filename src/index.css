@@ -85,6 +85,11 @@ textarea, select {
   padding: 1rem;
 }
 
+.todoContainer {
+  direction: row;
+  gap: 3;
+}
+
 .todoActions {
   display: flex;
   width: 100%;

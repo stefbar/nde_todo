@@ -1,16 +1,62 @@
-import { useState } from 'react'
+// import type { User } from '@supabase/supabase-js' 
+import { useEffect, useState } from 'react'
 
-import Todo from './components/Todo'
-import CreateTodo from './components/CreateTodo'
+import type { Session } from '@supabase/supabase-js'
+import { supabase } from './db/supabaseClient'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Database } from './db/schema'
+
+import Login from './components/Login'
+import Home from './components/Home'
 
 import '@radix-ui/themes/styles.css'
 import { Theme } from '@radix-ui/themes'
-import { Flex, Box, Text, Heading, Switch, Separator } from '@radix-ui/themes'
+import { Flex, Box, Text, Heading, Switch } from '@radix-ui/themes'
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
-const App = () => {
 
+const App = () => {
+  
+  // const supabase = useSupabaseClient<Database>()
   const [isDarkTheme, setIsDarkTheme] = useState(true)
+  const [session, setSession] = useState<Session | null>()
+
+  useEffect(() => {
+    supabase.auth.getSession()
+      .then(({ data: { session }}) => {
+      setSession(session)
+    })
+
+    const { data: { subscription }, } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  })
+
+  // if(!session) {
+  //   return <Login />
+  // } else {
+  // const [user, setUser] = useState<User | null>(null)
+
+  // const user = session.user
+  // useEffect(() => {
+  //   const user = supabase.auth.getUser()
+  //   user.then(({ data: { user }}) => {
+  //     setUser(session?.user ?? null)
+  //   })
+  //   const { data: authListener } = supabase.auth.onAuthStateChange(
+  //     async (event, session) => {
+  //       const currentUser = session?.user
+  //       setUser(currentUser ?? null)
+  //     }
+  //   )
+
+  //   return () => {
+  //     authListener?.subscription.unsubscribe()
+  //   }
+  // }, [user])
   
   return (
     <Theme appearance={isDarkTheme ? 'dark' : 'light'}>
@@ -33,20 +79,12 @@ const App = () => {
           </Flex>
         </Text>
 
-        <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
+        { !session ? <Login /> : <Home session={session}/> }
+        {/* { !user ? <Login /> : <Home user={user}/> } */}
+        {/* <Home session={session}/> */}
+        {/* <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
           <Separator orientation="horizontal" size="4" />
-        </Flex>
-        <Flex direction="column" style={{ width: "100%" }}>
-          <CreateTodo />
-        </Flex>
-
-        <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
-          <Separator orientation="horizontal" size="4" />
-        </Flex>
-
-        <Flex direction="column" gap="3">
-          <Todo />
-        </Flex>
+        </Flex> */}
 
       </Theme>
     </Theme>

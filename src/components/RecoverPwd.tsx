@@ -1,12 +1,14 @@
+import type { UserAttributes } from '@supabase/supabase-js'
 import { useRef } from "react"
-import { supabase } from '../supabaseClient'
+import { supabase } from '../db/supabaseClient'
 
-const RecoverPassword = ({ token, setRecoveryToken }) => {
-    const newPasswordRef = useRef()
+const RecoverPassword = ({ token, setRecoveryToken }: { token: UserAttributes; setRecoveryToken: React.Dispatch<React.SetStateAction<string | null>> }) => {
+
+    const newPasswordRef = useRef<HTMLInputElement>(null)
 
     const handleNewPassword = async () => {
-        const newPassword = newPasswordRef.current.value
-        const { error } = await supabase.auth.api.updateUser(token, {
+        const newPassword = newPasswordRef?.current?.value
+        const { error } = await supabase.auth.updateUser(token, {
             password: newPassword,
         })
 
@@ -24,7 +26,7 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
           Recover password
         </span>
         <label htmlFor={"email"}>
-          <span className={"font-mono mr-1 text-red-400"}>*</span>
+          <span>*</span>
           Enter new password :
         </label>
         <input
@@ -42,6 +44,7 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
         </span>
       </div>
     )
+
 }
 
 export default RecoverPassword
