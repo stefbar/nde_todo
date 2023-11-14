@@ -1,4 +1,4 @@
-/* @import '@radix-ui/colors/red-dark.css'; */
+@import '@radix-ui/colors/red-dark.css';
 
 /* CSS RESET */
 /* Box sizing rules */
@@ -64,10 +64,10 @@ picture {
 } */
 
 /* Inherit fonts for inputs and buttons */
-/* input, button,
+input, button,
 textarea, select {
   font: inherit;
-} */
+}
 
 /* Make sure textareas without a rows attribute are not tiny */
 /* textarea:not([rows]) {
@@ -85,8 +85,46 @@ textarea, select {
   padding: 1rem;
 }
 
-.todoActions {
+.toggleThemeContainer {
+  min-width: 80px;
   display: flex;
-  width: 100%;
+  flex-direction: row;
   justify-content: space-between;
+}
+
+.themeIcon {
+  align-self: center;
+}
+
+.todoContainer {
+  max-width: 350;
+  justify-content: space-between;
+}
+
+.todoCard {
+  min-width: 70%;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.todoActions {
+  min-width: 80px;
+  display: flex;
+  flex-basis: 5.5rem;
+  flex-grow: 0;
+  justify-content: space-between;
+}
+
+.todoActionBtn {
+  align-self: center;
+}
+
+#addTodoBtn {
+  display: block;
+  margin: 0 auto;
+  width: 5rem;
+  height: 4rem;
+  text-align: center;
 }
