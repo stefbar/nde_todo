@@ -85,9 +85,26 @@ textarea, select {
   padding: 1rem;
 }
 
-.todoContainer {
-  direction: row;
-  gap: 3;
+.toggleThemeContainer {
+  min-width: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.themeIcon {
+  align-self: center;
+}
+
+.todosUList {
+  padding: 0;
+}
+
+.todoCard {
+  min-width: 70%;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  flex-grow: 1;
 }
 
 .todoActions {
@@ -108,4 +125,19 @@ textarea, select {
   width: 5rem;
   height: 4rem;
   text-align: center;
+}
+
+/* FOOTER */
+.footerContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--slate-1);
+}
+
+.footerMentions {
+  font-size: 0.7rem;
 }

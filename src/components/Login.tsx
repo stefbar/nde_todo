@@ -4,11 +4,13 @@ import { useRef, useState } from 'react'
 import { supabase } from '../db/supabaseClient'
 
 import { Flex, Card, Text, TextField, Button } from '@radix-ui/themes'
+// import { Database } from '../db/schema'
 // import { TrashIcon } from '@radix-ui/react-icons'
 
 const Login = () => {
-  const supabaseUrl = import.meta.env.VITE_NDETODO_SUPABASE_URL
-  const supabaseKey = import.meta.env.VITE_NDETODO_SUPABASE_KEY
+  // const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  // const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY  
+  
 
   const [helperTxt, setHelperTxt] = useState<{ error: boolean, text: string | null }>({ error: true, text: null })
   const emailRef = useRef<HTMLInputElement>(null)
@@ -37,6 +39,8 @@ const Login = () => {
     if(error) {
       console.log('Error : ', error.message)
     }
+    console.log(`Signed in with ${provider}`)
+    
   }
 
   const forgotPwd = async (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -56,9 +60,7 @@ const Login = () => {
   }
 
   return (
-    supabaseUrl && supabaseKey ? (
-      <p>There is no api key and url</p>
-    ) : (
+    // supabase ? <p>There is no api key and url</p> : (
     <>
       <Flex className='todoContainer' direction="row" gap="3">
         <Card className='todoCard' variant="classic">
@@ -96,7 +98,7 @@ const Login = () => {
             </span>
           <div className='todoActions'>
             <Button
-              type='submit'
+              type='button'
               className='todoActionBtn'
               onClick={() => handleLogin('REGISTER').catch(console.error)}
             >
@@ -140,7 +142,7 @@ const Login = () => {
       </div>
     </>
   )
-  )
+  // )
 }
 
 export default Login

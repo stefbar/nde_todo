@@ -31,37 +31,35 @@ const Todo = ({ todo, deleteTodo }: { todo: Todos; deleteTodo: () => void }) => 
   }
 
   return (
-    <Flex className='todoContainer'>
-      <li>
-        <Card className='todoCard' variant="classic">
-        <input
-          type='checkbox'
-          className=''
-          checked={ done ? true : false }
-          onChange={toggleDone}
-        />
-          <Text as="div" size="2" weight="bold">
-            {todo.inserted_at}
-          </Text>
-          <Text as="div" color="gray" size="2">
-            {todo.task}
-          </Text>
-        </Card>
-        <div className='todoActions'>
-          <EditTodo />
-          <Button
-            className='todoActionBtn'
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              deleteTodo()
-              }
+    <Flex gap='3'>
+      <Card className='todoCard' variant="classic">
+      <input
+        type='checkbox'
+        className=''
+        checked={ done ? true : false }
+        onChange={toggleDone}
+      />
+        <Text as="div" size="2">
+          {todo.inserted_at}
+        </Text>
+        <Text as="div" color="gray" size="2">
+          {todo.task}
+        </Text>
+      </Card>
+      <div className='todoActions'>
+        <EditTodo />
+        <Button
+          className='todoActionBtn'
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            deleteTodo()
             }
-          >
-            <TrashIcon/>
-          </Button>
-        </div>          
-      </li>
+          }
+        >
+          <TrashIcon/>
+        </Button>
+      </div>          
     </Flex>
   )
   

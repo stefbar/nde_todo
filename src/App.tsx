@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './db/supabaseClient'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Database } from './db/schema'
+// import { Session } from '@supabase/auth-helpers-react'
+// import { Database } from './db/schema'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 
-import Login from './components/Login'
+// import Login from './components/Login'
 import Home from './components/Home'
 
 import '@radix-ui/themes/styles.css'
@@ -14,12 +16,11 @@ import { Theme } from '@radix-ui/themes'
 import { Flex, Box, Text, Heading, Switch } from '@radix-ui/themes'
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
-
 const App = () => {
   
   // const supabase = useSupabaseClient<Database>()
   const [isDarkTheme, setIsDarkTheme] = useState(true)
-  const [session, setSession] = useState<Session | null>()
+  const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession()
@@ -33,7 +34,7 @@ const App = () => {
     )
 
     return () => subscription.unsubscribe()
-  })
+  }, [])
 
   // if(!session) {
   //   return <Login />
@@ -79,8 +80,19 @@ const App = () => {
           </Box>
         </Flex>
       </Text>
-
-        { !session ? <Login /> : <Home session={session}/> }
+        { !session ?
+          <Auth
+            supabaseClient={supabase}
+            providers={['google', 'github']}
+            appearance={{ theme: ThemeSupa }}
+            theme={isDarkTheme ? 'dark' : 'light'}
+          /> :
+          <Home
+            key={session.user.id}
+            session={session}
+          />
+        }
+        {/* { !session ? <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} /> : <Home /> } */}
         {/* { !user ? <Login /> : <Home user={user}/> } */}
         {/* <Home session={session}/> */}
         {/* <Flex direction="column" gap="4" style={{ margin: "1rem" }}>

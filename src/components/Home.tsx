@@ -26,7 +26,7 @@ const Home = ({ session }: { session: Session }) => {
     // user.then(({ data: { user }}) => {
     //   setUser(session?.user ?? null)
     // })
-    setUser(session.user ?? null)
+    setUser(user ?? null)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         const currentUser = session?.user
@@ -37,7 +37,7 @@ const Home = ({ session }: { session: Session }) => {
     return () => {
       authListener?.subscription.unsubscribe()
     }
-  }, [session.user])
+  }, [user])
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -51,7 +51,7 @@ const Home = ({ session }: { session: Session }) => {
     }
 
     fetchTodos()
-  }, [supabase])
+  }, [])
 
 // setTodos(todos as Todos[])
 
@@ -107,7 +107,7 @@ const Home = ({ session }: { session: Session }) => {
       <Flex direction="column" gap="3">
         {
           todos.length ?
-            <ul role='list'>
+            <ul className='todosUList' role='list'>
               { todos.map((todo) => {
                 return(
                   <Todo  
