@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import type { User, Session } from '@supabase/supabase-js'
 import { supabase } from '../db/supabaseClient'
-// import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../db/schema'
 
 import Todo from './Todo'
@@ -14,18 +13,13 @@ import { Flex, Separator } from '@radix-ui/themes'
 type Todos = Database['public']['Tables']['todos']['Row']
 
 const Home = ({ session }: { session: Session }) => {
-  // const Home = ({ user }: { user: User }) => {
-  // const supabase = useSupabaseClient<Database>()
+
   const [user, setUser] = useState<User | null>(null)
   const [todos, setTodos] = useState<Todos[]>([])
   const [newTaskText, setNewTaskText] = useState<string>('')
   const [errorText, setErrorText] = useState<string | null>('')
 
   useEffect(() => {
-    // const user = supabase.auth.getUser()
-    // user.then(({ data: { user }}) => {
-    //   setUser(session?.user ?? null)
-    // })
     setUser(user ?? null)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
@@ -52,8 +46,6 @@ const Home = ({ session }: { session: Session }) => {
 
     fetchTodos()
   }, [])
-
-// setTodos(todos as Todos[])
 
   const deleteTodo = async (id: number) => {
     try {
@@ -90,7 +82,6 @@ const Home = ({ session }: { session: Session }) => {
     supabase.auth.signOut().catch(console.error)
   }
   
-
   return(
     <>
       <Flex direction="column" gap="4" style={{ margin: "1rem" }}>

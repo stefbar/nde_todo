@@ -1,9 +1,6 @@
-// import { Database } from '../db/schema'
-
 import { Dialog, Flex, Text, TextArea, Button } from '@radix-ui/themes'
+import * as Label from '@radix-ui/react-label'
 import { PlusIcon } from '@radix-ui/react-icons'
-
-// type Todos = Database['public']['Tables']['todos']['Row']
 
 const AddTodo = ({ taskText, setNewTaskText, addTodo }: { taskText: string; setNewTaskText: (taskText: string) => void; addTodo: (taskText: string) => Promise<void> }) => {
 
@@ -31,27 +28,28 @@ const AddTodo = ({ taskText, setNewTaskText, addTodo }: { taskText: string; setN
           </Dialog.Description>
 
           <Flex direction="column" gap="3">
-            <label>
+            <Label.Root>
               <Text as="div" size="2" mb="1" weight="bold">
                 Added at :
               </Text>
-            </label>
+            </Label.Root>
             <Text>
               {/* {d_inserted} */}
             </Text>
 
-            <label>
-              <Text as="div" size="2" mb="1" weight="bold">
+            <Label.Root htmlFor='todoContent'>
+              {/* <Text as="div" size="2" mb="1" weight="bold"> */}
                 Content
-              </Text>
+              {/* </Text> */}
+            </Label.Root>
               <TextArea
+                id='todoContent'
                 placeholder="Type todo's content"
                 value={taskText}
                 onChange={(e) => {
                   setNewTaskText(e.target.value)
                 }}
               />
-            </label>
           </Flex>
 
           <Flex gap="3" mt="4" justify="end">

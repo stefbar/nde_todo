@@ -1,14 +1,10 @@
-// import type { User } from '@supabase/supabase-js' 
 import { useEffect, useState } from 'react'
 
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './db/supabaseClient'
-// import { Session } from '@supabase/auth-helpers-react'
-// import { Database } from './db/schema'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 
-// import Login from './components/Login'
 import Home from './components/Home'
 
 import '@radix-ui/themes/styles.css'
@@ -18,7 +14,6 @@ import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
 const App = () => {
   
-  // const supabase = useSupabaseClient<Database>()
   const [isDarkTheme, setIsDarkTheme] = useState(true)
   const [session, setSession] = useState<Session | null>(null)
 
@@ -35,29 +30,6 @@ const App = () => {
 
     return () => subscription.unsubscribe()
   }, [])
-
-  // if(!session) {
-  //   return <Login />
-  // } else {
-  // const [user, setUser] = useState<User | null>(null)
-
-  // const user = session.user
-  // useEffect(() => {
-  //   const user = supabase.auth.getUser()
-  //   user.then(({ data: { user }}) => {
-  //     setUser(session?.user ?? null)
-  //   })
-  //   const { data: authListener } = supabase.auth.onAuthStateChange(
-  //     async (event, session) => {
-  //       const currentUser = session?.user
-  //       setUser(currentUser ?? null)
-  //     }
-  //   )
-
-  //   return () => {
-  //     authListener?.subscription.unsubscribe()
-  //   }
-  // }, [user])
   
   return (
     <Theme appearance={isDarkTheme ? 'dark' : 'light'}>
@@ -92,13 +64,6 @@ const App = () => {
             session={session}
           />
         }
-        {/* { !session ? <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} /> : <Home /> } */}
-        {/* { !user ? <Login /> : <Home user={user}/> } */}
-        {/* <Home session={session}/> */}
-        {/* <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
-          <Separator orientation="horizontal" size="4" />
-        </Flex> */}
-
       </Theme>
     </Theme>
   )
