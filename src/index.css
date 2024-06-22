@@ -96,11 +96,31 @@ textarea, select {
   align-self: center;
 }
 
+#addTodoBtn {
+  display: block;
+  margin: 0 auto;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+}
+#addTodoBtn svg {
+  width: 2rem;
+  height: 2rem;
+  transform: translate(-0.25rem, 0.25rem);
+}
+
 .todosUList {
   padding: 0;
 }
 
+.collapsibleTodoCard {
+  width: 100%;
+}
+
 .todoCard {
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
   min-width: 70%;
   flex-wrap: wrap;
   flex-basis: auto;
@@ -108,8 +128,8 @@ textarea, select {
 }
 
 .todoActions {
-  min-width: 80px;
   display: flex;
+  min-width: 80px;
   flex-basis: 5.5rem;
   flex-grow: 0;
   justify-content: space-between;
@@ -117,14 +137,6 @@ textarea, select {
 
 .todoActionBtn {
   align-self: center;
-}
-
-#addTodoBtn {
-  display: block;
-  margin: 0 auto;
-  width: 5rem;
-  height: 4rem;
-  text-align: center;
 }
 
 /* FOOTER */
