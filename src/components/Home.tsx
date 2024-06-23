@@ -51,7 +51,7 @@ const Home = ({ session }: { session: Session }) => {
       .delete()
       .eq('id', id)
       .throwOnError()
-      setTodos(todos.filter((x) => x.id !== id))
+      setTodos(todos.filter((todo) => todo.id !== id))
     } catch (error) {
       console.log('error : ', error)     
     }
@@ -70,6 +70,24 @@ const Home = ({ session }: { session: Session }) => {
         setTodos([ ...todos, todo])
       }
       setNewTaskText('')
+    }
+  }
+
+  const editTodo = async ({id, task}: {id: number; task: string}) => {
+    try {
+      const { data: todo, error } = await supabase
+      .from('todos')
+      .update({ task })
+      .eq('id', id)
+      .select()
+      .single()
+      if(error) setErrorText(error.message)
+      else {
+        setTodos([ ...todos, todo])
+      }
+    }
+    catch (error) {
+      console.log('error : ', error)
     }
   }
 
@@ -95,6 +113,7 @@ const Home = ({ session }: { session: Session }) => {
                     key={todo.id}
                     todo={todo}
                     deleteTodo={() => deleteTodo(todo.id)}
+                    editTodo={() => editTodo({ id: todo.id, task: todo.task || '' })}
                   />
                 )
               })}

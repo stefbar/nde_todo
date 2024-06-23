@@ -127,6 +127,22 @@ textarea, select {
   flex-grow: 1;
 }
 
+.todoMinimalInfo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  flex-grow: 1;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.toggleDoneCheckbox {
+  width: 2rem;
+  height: 2rem;
+  /* align-self: center; */
+}
+
 .todoActions {
   display: flex;
   min-width: 80px;

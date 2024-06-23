@@ -1,7 +1,11 @@
+import { Database } from '../db/schema'
+
 import { Dialog, Flex, Text, TextField, TextArea, Button } from '@radix-ui/themes'
 import { Pencil1Icon } from '@radix-ui/react-icons'
 
-const EditTodo = () => {
+type Todos = Database['public']['Tables']['todos']['Row']
+
+const EditTodo = ({todo, editTodo}: {todo: Todos; editTodo: ({id, task}: {id: number; task: string}) => Promise<void>}) => {
 
   return (
     <Dialog.Root>
@@ -23,7 +27,7 @@ const EditTodo = () => {
               Title
             </Text>
             <TextField.Input
-              defaultValue="Todo"
+              defaultValue={todo.task || ''}
               placeholder="Type a title for the todo"
             />
           </label>
@@ -44,7 +48,12 @@ const EditTodo = () => {
             </Button>
           </Dialog.Close>
           <Dialog.Close>
-            <Button>Save</Button>
+            <Button
+              type="submit"
+              onSubmit={() => editTodo({ id: todo.id, task: todo.task || '' })}
+            >
+              Save
+            </Button>
           </Dialog.Close>
         </Flex>
       </Dialog.Content>
