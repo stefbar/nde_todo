@@ -5,7 +5,8 @@ import { supabase } from './db/supabaseClient'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 
-import Home from './components/Home'
+// import Home from './components/Home'
+import Todos from './components/Todos'
 
 import '@radix-ui/themes/styles.css'
 import { Theme } from '@radix-ui/themes'
@@ -33,38 +34,42 @@ const App = () => {
   
   return (
     <Theme appearance={isDarkTheme ? 'dark' : 'light'}>
-      <Theme
-        accentColor="tomato"
-        grayColor="gray"
-        panelBackground="solid"
-        scaling="100%"
-        radius="full"
-      >
+        <Theme
+          accentColor="tomato"
+          grayColor="gray"
+          panelBackground="solid"
+          scaling="100%"
+          radius="full"
+        >
 
-        <Text as="label" size="2">
-        <Flex gap="2">
-          <Heading as='h1'>NDE todos</Heading>
+            <Text as="label" size="2">
+                <Flex gap="2">
+                    <Heading as='h1'>NDE todos</Heading>
 
-          <Box className='toggleThemeContainer' style={{position: "absolute", top: "1rem", right: "1rem"}}>
-            <SunIcon className='themeIcon'/>
-            <Switch defaultChecked onCheckedChange={() => {setIsDarkTheme(!isDarkTheme)}}/>
-            <MoonIcon className='themeIcon'/>
-          </Box>
-        </Flex>
-      </Text>
-        { !session ?
-          <Auth
-            supabaseClient={supabase}
-            providers={['google', 'github']}
-            appearance={{ theme: ThemeSupa }}
-            theme={isDarkTheme ? 'dark' : 'light'}
-          /> :
-          <Home
-            key={session.user.id}
-            session={session}
-          />
-        }
-      </Theme>
+                    <Box className='toggleThemeContainer' style={{position: "absolute", top: "1rem", right: "1rem"}}>
+                        <SunIcon className='themeIcon'/>
+                        <Switch defaultChecked onCheckedChange={() => {setIsDarkTheme(!isDarkTheme)}}/>
+                        <MoonIcon className='themeIcon'/>
+                    </Box>
+                </Flex>
+            </Text>
+          { !session ?
+            <Auth
+                supabaseClient={supabase}
+                providers={['google', 'github']}
+                appearance={{ theme: ThemeSupa }}
+                theme={isDarkTheme ? 'dark' : 'light'}
+            /> :
+            // <Home
+            //   key={session.user.id}
+            //   session={session}
+            // />
+            <Todos
+                key={session.user.id}
+                session={session}
+            />
+          }
+        </Theme>
     </Theme>
   )
 
