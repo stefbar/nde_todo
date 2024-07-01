@@ -86,7 +86,7 @@ const Todos = ({ session }: { session: Session }) => {
 
     const [state, dispatch] = useReducer(todosReducer, {todos: []})
 
-    const handleSubmit = () => {
+    const onAddTodo = () => {
         dispatch({
             type: 'ADD_TODO',
             payload: {
@@ -99,6 +99,21 @@ const Todos = ({ session }: { session: Session }) => {
         })
         setNewTaskText('')
     }
+
+    // const onEditTodo = (editedTodo: Todo) => {
+    //     dispatch({
+    //         type: 'EDIT_TODO',
+    //         payload: { ...editedTodo }
+    //     })
+        // setNewTaskText('')
+    // }
+
+    // const editedTodo = {
+    //     ...todo,
+    //     inserted_at: new Date().toLocaleString("fr-FR"),
+    //     task: newTaskText,
+    //     is_complete: false
+    // }
 
     return (
         <>
@@ -114,7 +129,7 @@ const Todos = ({ session }: { session: Session }) => {
                     <form
                         onSubmit={(e) => {
                             e.preventDefault(),
-                            handleSubmit()
+                            onAddTodo()
                         }}
                     >
                         <Dialog.Title>Add todo</Dialog.Title>
@@ -130,7 +145,7 @@ const Todos = ({ session }: { session: Session }) => {
                                 placeholder="Type todo's content"
                                 value={newTaskText}
                                 onChange={(e) => {
-                                setNewTaskText(e.target.value)
+                                    setNewTaskText(e.target.value)
                                 }}
                             />
                         </Flex>
@@ -155,7 +170,7 @@ const Todos = ({ session }: { session: Session }) => {
                 { state.todos.length ?
                     <ul className='todosUList' role='list'>
                         { state.todos.map((todo) =>
-                            <TodoItem key={todo.id} todo={todo} dispatch={dispatch}/>
+                            <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
                         )}
                     </ul>
                 : <p>No todos yet</p> }
