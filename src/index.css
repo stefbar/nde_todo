@@ -135,12 +135,26 @@ textarea, select {
   flex-grow: 1;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
+}
+
+.todoMinimalInfo:not(:nth-last-child(1)) {
+  margin-bottom: 1rem;
+
 }
 
 .toggleDoneCheckbox {
   width: 2rem;
   height: 2rem;
-  /* align-self: center; */
+}
+
+.completedTodo {
+  text-decoration: line-through;
+  color: var(--slate-10);
+}
+
+.undisplayedMinimalInfo {
+  display: none;
 }
 
 .todoActions {

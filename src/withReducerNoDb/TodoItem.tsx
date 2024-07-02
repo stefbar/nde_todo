@@ -46,7 +46,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                 <Card className='todoCard' variant="classic">
                     <div className='todoContent'>
                         <Box className='todoMinimalInfo'>
-                            <Text as="div" color="gray" size="2">
+                            <Text className={todo.is_complete ? 'completedTodo' : ''} as="div" color="gray" size="4">
                                 { todo.task }
                             </Text>
                             <input
@@ -62,10 +62,10 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                             />
                         </Box>
 
-                        <Collapsible.Trigger asChild>
+                        <Collapsible.Trigger asChild className={todo.is_complete ? 'undisplayedMinimalInfo' : ''}>
                             <Box className='todoMinimalInfo'>
                                 <DotsHorizontalIcon />
-                                <Text as="div" size="2">
+                                <Text as="div" size="1">
                                     { todo.inserted_at }
                                 </Text>
                             </Box>

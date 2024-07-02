@@ -5,7 +5,7 @@ import { supabase } from '../db/supabaseClient'
 // import { Database } from '../db/schema'
 
 import TodoItem from './TodoItem'
-import Footer from './Footer'
+import Footer from '../components/Footer'
 
 import { Dialog, Flex, TextArea, Button } from '@radix-ui/themes'
 import * as Label from '@radix-ui/react-label'

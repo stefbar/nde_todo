@@ -6,7 +6,7 @@ import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 // import Home from './components/Home'
-import Todos from './components/Todos'
+import Todos from './withReducerNoDb/Todos'
 
 import '@radix-ui/themes/styles.css'
 import { Theme } from '@radix-ui/themes'
