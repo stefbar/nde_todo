@@ -10,6 +10,7 @@ import Footer from '../components/Footer'
 import { Dialog, Flex, TextArea, Button } from '@radix-ui/themes'
 import * as Label from '@radix-ui/react-label'
 import { PlusIcon } from '@radix-ui/react-icons'
+import SubMenu from '../components/SubMenu'
 
 type Todo = {
     id: number
@@ -29,10 +30,13 @@ type TodosAction = {
     payload: Todo
 }
 
+type VisibilitySort = 'all' | 'uncompleted' | 'completed'
+
 const Todos = ({ session }: { session: Session }) => {
 
     const [user, setUser] = useState<User | null>(null)
     const [newTaskText, setNewTaskText] = useState<string>('')
+    
     // const [errorText, setErrorText] = useState<string | null>('')
 
     useEffect(() => {
@@ -63,7 +67,7 @@ const Todos = ({ session }: { session: Session }) => {
             case 'EDIT_TODO': {
                 return {
                     ...state,
-                    todos: state.todos.map((todo: Todo) => todo.id === action.payload.id ? action.payload : todo)
+                    todos: state.todos.map((todo: Todo) => todo.id === action.payload?.id ? action.payload : todo)
                 }
             }
             case 'TOGGLE_TODO': {
@@ -100,6 +104,35 @@ const Todos = ({ session }: { session: Session }) => {
         setNewTaskText('')
     }
 
+    const [visibilitySort, setVisibilitySort] = useState<VisibilitySort>('all')
+    const sortTodos = () => {
+        switch (visibilitySort) {
+            case 'all': {
+                return (state.todos.map((todo) =>
+                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                ))
+            }
+            case 'uncompleted': {
+                const uncompletedTodos = state.todos.filter((todo: Todo) => !todo.is_complete)
+                return (uncompletedTodos.map((todo) =>
+                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                ))
+            }
+            case 'completed': {
+                const completedTodos = state.todos.filter((todo: Todo) => todo.is_complete)
+                return (completedTodos.map((todo) =>
+                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                ))                    
+            }
+            default: {
+                return (state.todos.map((todo) =>
+                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                ))
+                // throw new Error('unhandled visibilitySort: ' + visibilitySort)
+            }
+        }
+    }
+
     // const onEditTodo = (editedTodo: Todo) => {
     //     dispatch({
     //         type: 'EDIT_TODO',
@@ -108,20 +141,14 @@ const Todos = ({ session }: { session: Session }) => {
         // setNewTaskText('')
     // }
 
-    // const editedTodo = {
-    //     ...todo,
-    //     inserted_at: new Date().toLocaleString("fr-FR"),
-    //     task: newTaskText,
-    //     is_complete: false
-    // }
-
     return (
         <>
             <h1>Todos</h1>
+            <SubMenu  setVisibilitySort={setVisibilitySort} />
             <Dialog.Root>
                 <Dialog.Trigger>
                     <Button id='addTodoBtn'  className='todoActionBtn'>
-                    <PlusIcon />
+                        <PlusIcon />
                     </Button>
                 </Dialog.Trigger>
 
@@ -136,9 +163,7 @@ const Todos = ({ session }: { session: Session }) => {
                         
                         <Flex direction="column" gap="3">
                             <Label.Root htmlFor='todoContent'>
-                            {/* <Text as="div" size="2" mb="1" weight="bold"> */}
                                 Content
-                            {/* </Text> */}
                             </Label.Root>
                             <TextArea
                                 id='todoContent'
@@ -152,14 +177,14 @@ const Todos = ({ session }: { session: Session }) => {
 
                         <Flex gap="3" mt="4" justify="end">
                             <Dialog.Close>
-                            <Button variant="soft" color="gray">
-                                Cancel
-                            </Button>
+                                <Button variant="soft" color="gray">
+                                    Cancel
+                                </Button>
                             </Dialog.Close>
                             <Dialog.Close>
-                            <Button type='submit'>
-                                Save
-                            </Button>
+                                <Button type='submit'>
+                                    Save
+                                </Button>
                             </Dialog.Close>
                         </Flex>
                     </form>
@@ -169,9 +194,7 @@ const Todos = ({ session }: { session: Session }) => {
             <Flex direction="column" gap="3">
                 { state.todos.length ?
                     <ul className='todosUList' role='list'>
-                        { state.todos.map((todo) =>
-                            <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-                        )}
+                        { sortTodos() }
                     </ul>
                 : <p>No todos yet</p> }
             </Flex>

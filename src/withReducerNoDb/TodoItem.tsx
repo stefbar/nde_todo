@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
+import EditTodoForm from './EditTodoForm'
+
 import { Flex, Card, Text, Button, Box } from '@radix-ui/themes'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { TrashIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
-import EditTodoForm from './EditTodoForm'
 
 type Todo = {
   id: number
@@ -46,7 +47,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                 <Card className='todoCard' variant="classic">
                     <div className='todoContent'>
                         <Box className='todoMinimalInfo'>
-                            <Text className={todo.is_complete ? 'completedTodo' : ''} as="div" color="gray" size="4">
+                            <Text className={ todo.is_complete ? 'completedTodo' : '' } as="div" color="gray" size="4">
                                 { todo.task }
                             </Text>
                             <input
@@ -62,7 +63,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                             />
                         </Box>
 
-                        <Collapsible.Trigger asChild className={todo.is_complete ? 'undisplayedMinimalInfo' : ''}>
+                        <Collapsible.Trigger asChild className={ todo.is_complete ? 'undisplayedMinimalInfo' : '' }>
                             <Box className='todoMinimalInfo'>
                                 <DotsHorizontalIcon />
                                 <Text as="div" size="1">
@@ -75,16 +76,6 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                     <Collapsible.Content className='todoContent'>
                         <div className='todoActions'>
                             <EditTodoForm todo={todo} dispatch={dispatch} />
-                            {/* <Button
-                                onClick={
-                                    () => dispatch({
-                                        type: 'EDIT_TODO',
-                                        payload: todo
-                                    })
-                                }
-                            >
-                                Edit
-                            </Button> */}
                             <Button
                                 className='todoActionBtn'
                                 onClick={
@@ -94,7 +85,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                                     })
                                 }
                             >
-                              <TrashIcon/>
+                                <TrashIcon/>
                             </Button>
                         </div>
                     </Collapsible.Content> 

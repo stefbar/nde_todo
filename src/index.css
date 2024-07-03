@@ -96,6 +96,12 @@ textarea, select {
   align-self: center;
 }
 
+.subMenuCard {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
 #addTodoBtn {
   display: block;
   margin: 0 auto;
@@ -163,6 +169,7 @@ textarea, select {
   flex-basis: 5.5rem;
   flex-grow: 0;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .todoActionBtn {
