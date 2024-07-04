@@ -16,10 +16,10 @@ html {
 }
 
 /* Remove default margin in favour of better control in authored CSS */
-/* body, h1, h2, h3, h4, p,
+body, h1, h2, h3, h4, p,
 figure, blockquote, dl, dd {
   margin: 0;
-} */
+}
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role='list'],
@@ -98,8 +98,10 @@ textarea, select {
 
 .subMenuCard {
   display: flex;
-  text-align: center;
+  margin-bottom: 1rem;
   align-items: center;
+  justify-content: center;
+  /* text-align: center; */
 }
 
 #addTodoBtn {
@@ -124,7 +126,7 @@ textarea, select {
 }
 
 .todoCard {
-  display: flex;
+  /* display: flex; */
   margin-bottom: 1rem;
   width: 100%;
   min-width: 70%;

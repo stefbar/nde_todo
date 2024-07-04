@@ -98,7 +98,7 @@ const Todos = ({ session }: { session: Session }) => {
                 inserted_at: new Date().toLocaleString("fr-FR"),
                 task: newTaskText,
                 is_complete: false,
-                user_id: session?.user?.id || ''                                      
+                user_id: session.user.id                                     
             }
         })
         setNewTaskText('')
@@ -125,10 +125,10 @@ const Todos = ({ session }: { session: Session }) => {
                 ))                    
             }
             default: {
-                return (state.todos.map((todo) =>
-                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-                ))
-                // throw new Error('unhandled visibilitySort: ' + visibilitySort)
+                // return (state.todos.map((todo) =>
+                //     <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                // ))
+                throw new Error('unhandled visibilitySort: ' + visibilitySort)
             }
         }
     }
@@ -147,7 +147,7 @@ const Todos = ({ session }: { session: Session }) => {
             <SubMenu  setVisibilitySort={setVisibilitySort} />
             <Dialog.Root>
                 <Dialog.Trigger>
-                    <Button id='addTodoBtn'  className='todoActionBtn'>
+                    <Button id='addTodoBtn' className='todoActionBtn'>
                         <PlusIcon />
                     </Button>
                 </Dialog.Trigger>

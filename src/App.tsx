@@ -10,7 +10,7 @@ import Todos from './withReducerNoDb/Todos'
 
 import '@radix-ui/themes/styles.css'
 import { Theme } from '@radix-ui/themes'
-import { Flex, Box, Text, Heading, Switch } from '@radix-ui/themes'
+import { Flex, Box, Text, Heading, Switch, Separator } from '@radix-ui/themes'
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
 const App = () => {
@@ -53,6 +53,9 @@ const App = () => {
                     </Box>
                 </Flex>
             </Text>
+            <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
+              <Separator orientation="horizontal" size="4" />
+            </Flex>
           { !session ?
             <Auth
                 supabaseClient={supabase}
