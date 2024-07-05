@@ -101,12 +101,10 @@ textarea, select {
   margin-bottom: 1rem;
   align-items: center;
   justify-content: center;
-  /* text-align: center; */
 }
 
-.subMenuItem-active {
+.active {
   border: 2px solid #E54D2E;
-  /* color: #E54D2E; */
 }
 
 #addTodoBtn {
@@ -131,7 +129,6 @@ textarea, select {
 }
 
 .todoCard {
-  /* display: flex; */
   margin-bottom: 1rem;
   width: 100%;
   min-width: 70%;
@@ -166,7 +163,7 @@ textarea, select {
   color: var(--slate-10);
 }
 
-.undisplayedMinimalInfo {
+.undisplayed {
   display: none;
 }
 

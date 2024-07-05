@@ -21,9 +21,8 @@ type TodosAction = {
 }
 
 const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosAction) => void }) => {
+    
     const [open, setOpen] = useState(false)
-    // const [done, setDone] = useState(todo.is_complete)
-
     // const toggleDone = async () => {
     //   try {
     //     const { data } = await supabase
@@ -63,7 +62,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                             />
                         </Box>
 
-                        <Collapsible.Trigger asChild className={ todo.is_complete ? 'undisplayedMinimalInfo' : '' }>
+                        <Collapsible.Trigger asChild className={ todo.is_complete ? 'undisplayed' : '' }>
                             <Box className='todoMinimalInfo'>
                                 <DotsHorizontalIcon />
                                 <Text as="div" size="1">
@@ -73,7 +72,7 @@ const TodoItem = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                         </Collapsible.Trigger>
                     </div>
 
-                    <Collapsible.Content className='todoContent'>
+                    <Collapsible.Content className={ todo.is_complete ? 'undisplayed' : '' }>
                         <div className='todoActions'>
                             <EditTodoForm todo={todo} dispatch={dispatch} />
                             <Button

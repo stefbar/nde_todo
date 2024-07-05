@@ -24,15 +24,7 @@ type TodosAction = {
 const EditTodo = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosAction) => void }) => {
 
     const [editedTaskText, setEditedTaskText] = useState<string>(todo.task)
-    // const [editedTodo, setEditedTodo] = useState<Todo>(todo)
-    // const setEditedTodo = (newTaskText) => {
-    //     const editedTodo = {           
-    //         ...todo,
-    //         inserted_at: new Date().toLocaleString("fr-FR"),
-    //         task: newTaskText,
-    //         is_complete: false
-    //     }
-    // }
+
     const onSubmitEditedTodo = () => {
         const editedTodo = {
             ...todo,
@@ -58,24 +50,19 @@ const EditTodo = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
                 <form
                     onSubmit={(e) => {
                         e.preventDefault(),
-                        // setEditedTaskText(editedTaskText)
                         // onEditTodo(editedTodo)
                         onSubmitEditedTodo()
-                        // dispatch({ type: 'EDIT_TODO', payload: {...todo, inserted_at: new Date().toLocaleString("fr-FR"), task: editedTaskText, is_complete: false} })
                     }}
                 >
                     <Dialog.Title>Edit todo</Dialog.Title>
 
                     <Flex direction="column" gap="3">
                         <Label.Root htmlFor='todoContent'>
-                            {/* <Text as="div" size="2" mb="1" weight="bold"> */}
                                 Content
-                            {/* </Text> */}
                         </Label.Root>
                         <TextArea
                             id='todoContent'
                             placeholder="Type todo's content"
-                            // defaultValue={todo.task}
                             value={editedTaskText}
                             onChange={(e) => {
                                 setEditedTaskText(e.target.value)

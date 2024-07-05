@@ -5,9 +5,9 @@ type VisibilitySort = 'all' | 'uncompleted' | 'completed'
 
 const SubMenu = ({ setVisibilitySort }: { setVisibilitySort: (visibilitySort: VisibilitySort) => void } ) => {
 
-    // const sortBy = document.querySelectorAll('.subMenuItem')
-    const dataState = document.querySelector('.subMenuItem')?.getAttribute('data-state')
-
+    const submenuItemsList: NodeListOf<HTMLElement> = document.querySelectorAll('.ToggleGroupItem') 
+    const dataState = Object.values(submenuItemsList).map((item) => item.getAttribute('data-state'))    
+    
     return (
         <Card className='subMenuCard'>
             {/* <SegmentedControl.Root defaultValue='sort' radius='full'>
@@ -15,36 +15,44 @@ const SubMenu = ({ setVisibilitySort }: { setVisibilitySort: (visibilitySort: Vi
                 <SegmentedControl.Item value='completed'>Completed</SegmentedControl.Item>
             </SegmentedControl.Root> */}
 
-            <ToggleGroup.Root type='single' defaultValue='all'>
+            <ToggleGroup.Root
+                className="ToggleGroup"
+                type='single'
+                defaultValue='all'
+                aria-label='Display todos by status'
+                rovingFocus={true}
+            >
                 <ToggleGroup.Item
-                    className={dataState === 'on' ? 'subMenuItem-active' : 'subMenuItem'}
+                    asChild
+                    className={dataState[0] === 'on' ? 'ToggleGroupItem active' : 'ToggleGroupItem'}
                     value='all'
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setVisibilitySort('all')
-                    }}
+                    aria-label='Display all todos'
+                    
                 >
-                    Show all
+                    <button onClick={() => {setVisibilitySort('all')
+                    }}>
+                        Show all
+                    </button>
                 </ToggleGroup.Item>
                 <ToggleGroup.Item
-                    className={dataState === 'on' ? 'subMenuItem-active' : 'subMenuItem'}
+                    asChild
+                    className={dataState[1] === 'on' ? 'ToggleGroupItem active' : 'ToggleGroupItem'}
                     value='uncompleted'
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setVisibilitySort('uncompleted')
-                    }}
+                    aria-label='Display uncompleted todos'
                 >
-                    Uncompleted
+                    <button onClick={() => {setVisibilitySort('uncompleted')}}>
+                        Uncompleted
+                    </button>      
                 </ToggleGroup.Item>
                 <ToggleGroup.Item
-                    className={dataState === 'on' ? 'subMenuItem-active' : 'subMenuItem'}
+                    asChild
+                    className={dataState[2] === 'on' ? 'ToggleGroupItem active' : 'ToggleGroupItem'}
                     value='completed'
-                    onClick={(e) => {
-                        e.preventDefault()
-                        setVisibilitySort('completed')
-                    }}
+                    aria-label='Display completed todos'
                 >
-                    Completed
+                    <button onClick={() => {setVisibilitySort('completed')}}>
+                        Completed
+                    </button>        
                 </ToggleGroup.Item>
             </ToggleGroup.Root>
         </Card>

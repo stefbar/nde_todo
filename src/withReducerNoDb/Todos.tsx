@@ -126,9 +126,6 @@ const Todos = ({ session }: { session: Session }) => {
                 ))                    
             }
             default: {
-                // return (state.todos.map((todo) =>
-                //     <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-                // ))
                 throw new Error('unhandled visibilitySort: ' + visibilitySort)
             }
         }
