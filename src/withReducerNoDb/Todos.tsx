@@ -40,11 +40,12 @@ const Todos = ({ session }: { session: Session }) => {
     // const [errorText, setErrorText] = useState<string | null>('')
 
     useEffect(() => {
-        setUser(user ?? null)
+        setUser(user ?? null)        
         const { data: authListener } = supabase.auth.onAuthStateChange(
             async (_event, session) => {
                 const currentUser = session?.user
                 setUser(currentUser ?? null)
+
             }
         )
         return () => {

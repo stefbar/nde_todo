@@ -104,6 +104,11 @@ textarea, select {
   /* text-align: center; */
 }
 
+.subMenuItem-active {
+  border: 2px solid #E54D2E;
+  /* color: #E54D2E; */
+}
+
 #addTodoBtn {
   display: block;
   margin: 0 auto;
