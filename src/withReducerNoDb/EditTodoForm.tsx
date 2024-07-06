@@ -31,9 +31,7 @@ const EditTodo = ({ todo, dispatch }: { todo: Todo; dispatch: (action: TodosActi
             inserted_at: new Date().toLocaleString("fr-FR"),
             task: editedTaskText,
             is_complete: false
-        }
-        console.log('editedTodo : ', editedTodo);
-        
+        }    
         // onEditTodo(editedTodo)
         dispatch({ type: 'EDIT_TODO', payload: editedTodo })
     }

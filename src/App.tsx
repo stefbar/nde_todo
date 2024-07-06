@@ -54,7 +54,7 @@ const App = () => {
                 </Flex>
             </Text>
             <Flex direction="column" gap="4" style={{ margin: "1rem" }}>
-              <Separator orientation="horizontal" size="4" />
+                <Separator orientation="horizontal" size="4" />
             </Flex>
           { !session ?
             <Auth

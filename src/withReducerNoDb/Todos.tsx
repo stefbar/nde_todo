@@ -83,6 +83,12 @@ const Todos = ({ session }: { session: Session }) => {
                     todos: state.todos.filter((todo: Todo) => todo !== action.payload)
                 }
             }
+            case 'DELETE_COMPLETED_TODOS': {
+                return {
+                    ...state,
+                    todos: state.todos.filter((todo: Todo) => !todo.is_complete)
+                }
+            }
             default: {
                 throw new Error('unhandled action: ' + action.type)
             }
@@ -92,17 +98,23 @@ const Todos = ({ session }: { session: Session }) => {
     const [state, dispatch] = useReducer(todosReducer, {todos: []})
 
     const onAddTodo = () => {
-        dispatch({
-            type: 'ADD_TODO',
-            payload: {
-                id: Date.now(),
-                inserted_at: new Date().toLocaleString("fr-FR"),
-                task: newTaskText,
-                is_complete: false,
-                user_id: session.user.id                                     
-            }
-        })
+        const newTodo = {
+            id: Date.now(),
+            inserted_at: new Date().toLocaleString("fr-FR"),
+            task: newTaskText,
+            is_complete: false,
+            user_id: session.user.id                                     
+        }
+        dispatch({ type: 'ADD_TODO', payload: newTodo })
         setNewTaskText('')
+    }
+
+    const onDeleteCompletedTodos = () => {
+        dispatch({
+            type: 'DELETE_COMPLETED_TODOS',
+            payload: state.todos[0]
+        })
+        
     }
 
     const [visibilitySort, setVisibilitySort] = useState<VisibilitySort>('all')
@@ -121,10 +133,26 @@ const Todos = ({ session }: { session: Session }) => {
             }
             case 'completed': {
                 const completedTodos = state.todos.filter((todo: Todo) => todo.is_complete)
-                return (completedTodos.map((todo) =>
-                    <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
-                ))                    
+                const renderedCompletedTodos = <>
+                        {(completedTodos.map((todo) =>
+                            <TodoItem key={todo.id} todo={todo} dispatch={dispatch} />
+                        ))}
+                        <Button
+                            id='clearCompletedTodosBtn'
+                            className='todoActionBtn'
+                            onClick={() => onDeleteCompletedTodos()}
+                        >
+                            0
+                            {/* Clear all completed todos */}
+                        </Button>                
+                    </>
+                if(completedTodos.length === 0) {
+                    return null
+                } else {
+                    return renderedCompletedTodos
+                }                          
             }
+            // break
             default: {
                 throw new Error('unhandled visibilitySort: ' + visibilitySort)
             }
@@ -189,7 +217,7 @@ const Todos = ({ session }: { session: Session }) => {
                 </Dialog.Content>
             </Dialog.Root>
             
-            <Flex direction="column" gap="3">
+            <Flex className='todos-container' direction="column" gap="3">
                 { state.todos.length ?
                     <ul className='todosUList' role='list'>
                         { sortTodos() }
